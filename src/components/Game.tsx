@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import ConfettiEffect from './ConfettiEffect';
+import { gameEvents } from '@/utils/analytics';
 
 type Choice = 'rock' | 'paper' | 'scissors' | null;
 type Result = 'win' | 'lose' | 'draw' | null;
@@ -28,6 +29,8 @@ export default function Game() {
   const [showAnimation, setShowAnimation] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showRules, setShowRules] = useState(false);
+  const [previousResult, setPreviousResult] = useState<Result | null>(null);
+  const [winStreak, setWinStreak] = useState(0);
   
   // Reset the game state for a new round
   const resetRound = () => {
@@ -37,12 +40,19 @@ export default function Game() {
     setIsPlaying(false);
     setShowAnimation(false);
     setShowConfetti(false);
+    setWinStreak(0);
   };
   
   // Start a new game
   const startGame = () => {
-    resetRound();
-    setScores({ wins: 0, losses: 0, draws: 0 });
+    setIsPlaying(true);
+    setPlayerChoice(null);
+    setComputerChoice(null);
+    setResult(null);
+    setShowRules(false);
+    
+    // 跟踪游戏开始事件
+    gameEvents.gameStart();
   };
   
   // Generate computer choice
@@ -69,38 +79,63 @@ export default function Game() {
   
   // Handle player choice
   const handleChoice = (choice: Choice) => {
-    if (isPlaying) return;
+    if (!isPlaying) return;
     
-    setIsPlaying(true);
+    // 跟踪玩家选择事件
+    gameEvents.playerChoice(choice || 'unknown');
+    
     setPlayerChoice(choice);
-    setShowAnimation(true);
     
-    // Simulate computer thinking
-    setTimeout(() => {
-      const computerSelection = generateComputerChoice();
-      setComputerChoice(computerSelection);
+    // 电脑选择
+    const computerSelection = generateComputerChoice();
+    setComputerChoice(computerSelection);
+    
+    // 判断结果
+    const gameResult = determineWinner(choice, computerSelection);
+    setResult(gameResult);
+    
+    // 更新分数
+    if (gameResult === 'win') {
+      const newWins = scores.wins + 1;
+      setScores(prevScores => ({ ...prevScores, wins: newWins }));
+      setShowConfetti(true);
       
-      if (choice) {
-        const gameResult = determineWinner(choice, computerSelection);
-        setResult(gameResult);
+      // 跟踪获胜事件
+      gameEvents.gameResult('win');
+      
+      // 如果连续获胜，跟踪连胜次数
+      if (previousResult === 'win') {
+        const newStreak = winStreak + 1;
+        setWinStreak(newStreak);
         
-        // Show confetti on win
-        if (gameResult === 'win') {
-          setShowConfetti(true);
+        // 跟踪连胜
+        if (newStreak > 1) {
+          gameEvents.winStreak(newStreak);
         }
-        
-        // Update scores
-        setScores(prevScores => {
-          if (gameResult === 'win') {
-            return { ...prevScores, wins: prevScores.wins + 1 };
-          } else if (gameResult === 'lose') {
-            return { ...prevScores, losses: prevScores.losses + 1 };
-          } else {
-            return { ...prevScores, draws: prevScores.draws + 1 };
-          }
-        });
+      } else {
+        setWinStreak(1);
       }
-    }, 1000);
+    } else if (gameResult === 'lose') {
+      setScores(prevScores => ({ ...prevScores, losses: scores.losses + 1 }));
+      setWinStreak(0);
+      
+      // 跟踪失败事件
+      gameEvents.gameResult('lose');
+    } else {
+      setScores(prevScores => ({ ...prevScores, draws: scores.draws + 1 }));
+      
+      // 跟踪平局事件
+      gameEvents.gameResult('draw');
+    }
+    
+    setPreviousResult(gameResult);
+    
+    // 短暂延迟后隐藏庆祝效果
+    if (gameResult === 'win') {
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 2000);
+    }
   };
   
   // Get result message
