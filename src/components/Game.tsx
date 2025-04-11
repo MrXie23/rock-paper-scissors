@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import ConfettiEffect from './ConfettiEffect';
 
 type Choice = 'rock' | 'paper' | 'scissors' | null;

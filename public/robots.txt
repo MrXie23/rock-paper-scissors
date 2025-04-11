@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rock-paper-scissors-game.vercel.app/sitemap.xml 
