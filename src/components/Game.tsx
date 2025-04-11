@@ -21,6 +21,7 @@ export default function Game() {
   const [computerChoice, setComputerChoice] = useState<Choice>(null);
   const [result, setResult] = useState<Result>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasChosen, setHasChosen] = useState(false);
   const [scores, setScores] = useState({
     wins: 0,
     losses: 0,
@@ -37,7 +38,7 @@ export default function Game() {
     setPlayerChoice(null);
     setComputerChoice(null);
     setResult(null);
-    setIsPlaying(false);
+    setHasChosen(false);
     setShowAnimation(false);
     setShowConfetti(false);
     setWinStreak(0);
@@ -49,6 +50,7 @@ export default function Game() {
     setPlayerChoice(null);
     setComputerChoice(null);
     setResult(null);
+    setHasChosen(false);
     setShowRules(false);
     
     // 跟踪游戏开始事件
@@ -79,12 +81,15 @@ export default function Game() {
   
   // Handle player choice
   const handleChoice = (choice: Choice) => {
-    if (!isPlaying) return;
+    if (!isPlaying || hasChosen) return;
+    
+    setHasChosen(true);
     
     // 跟踪玩家选择事件
     gameEvents.playerChoice(choice || 'unknown');
     
     setPlayerChoice(choice);
+    setShowAnimation(true);
     
     // 电脑选择
     const computerSelection = generateComputerChoice();
@@ -116,13 +121,13 @@ export default function Game() {
         setWinStreak(1);
       }
     } else if (gameResult === 'lose') {
-      setScores(prevScores => ({ ...prevScores, losses: scores.losses + 1 }));
+      setScores(prevScores => ({ ...prevScores, losses: prevScores.losses + 1 }));
       setWinStreak(0);
       
       // 跟踪失败事件
       gameEvents.gameResult('lose');
     } else {
-      setScores(prevScores => ({ ...prevScores, draws: scores.draws + 1 }));
+      setScores(prevScores => ({ ...prevScores, draws: prevScores.draws + 1 }));
       
       // 跟踪平局事件
       gameEvents.gameResult('draw');
@@ -298,7 +303,7 @@ export default function Game() {
             <div className="flex justify-center gap-6 mb-8 flex-wrap">
               <button
                 onClick={() => handleChoice('rock')}
-                disabled={isPlaying}
+                disabled={!isPlaying || hasChosen}
                 className="w-24 h-24 bg-gradient-to-r from-amber-400 to-amber-500 dark:from-amber-600 dark:to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-full shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-110 transition-transform duration-200"
                 aria-label="Choose rock"
               >
@@ -306,7 +311,7 @@ export default function Game() {
               </button>
               <button
                 onClick={() => handleChoice('paper')}
-                disabled={isPlaying}
+                disabled={!isPlaying || hasChosen}
                 className="w-24 h-24 bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-full shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-110 transition-transform duration-200"
                 aria-label="Choose paper"
               >
@@ -314,7 +319,7 @@ export default function Game() {
               </button>
               <button
                 onClick={() => handleChoice('scissors')}
-                disabled={isPlaying}
+                disabled={!isPlaying || hasChosen}
                 className="w-24 h-24 bg-gradient-to-r from-indigo-400 to-indigo-500 dark:from-indigo-600 dark:to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white rounded-full shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-110 transition-transform duration-200"
                 aria-label="Choose scissors"
               >
@@ -323,10 +328,10 @@ export default function Game() {
             </div>
             
             <button
-              onClick={isPlaying ? resetRound : startGame}
+              onClick={hasChosen ? resetRound : (isPlaying ? resetRound : startGame)}
               className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
             >
-              {isPlaying ? "Play Again" : "New Game"}
+              {!isPlaying ? "New Game" : (hasChosen ? "Play Again" : "Reset Game")}
             </button>
           </div>
         </div>
