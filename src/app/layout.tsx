@@ -84,13 +84,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-  
+
   return (
     <html lang="en">
       <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8437685566143391"
+          crossOrigin="anonymous"></script>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="google-adsense-account" content="ca-pub-8437685566143391"></meta>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
@@ -101,7 +104,7 @@ export default function RootLayout({
             <GoogleAnalytics measurementId={gaMeasurementId} />
           </Suspense>
         )}
-        
+
         {/* Page structure with tracking */}
         <PageTracker>
           <Header />
