@@ -318,34 +318,7 @@ export default function Game() {
               </ul>
             </div>
           </div>
-        </div>
-        
-        {/* Footer */}
-        <footer className="bg-gray-800 dark:bg-gray-900 text-white p-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="text-center md:text-left mb-4 md:mb-0">
-                <h3 className="text-xl font-bold">Rock Paper Scissors</h3>
-                <p className="text-gray-400 mt-1">© {new Date().getFullYear()} All Rights Reserved</p>
-              </div>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Contact Us
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Privacy Policy
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Terms of Use
-                </a>
-              </div>
-            </div>
-            <div className="mt-6 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
-              <p>Built with Next.js and Tailwind CSS</p>
-              <p className="mt-2">This is just a fun project. Enjoy playing!</p>
-            </div>
-          </div>
-        </footer>
+        </div>      
       </div>
     </div>
   );
