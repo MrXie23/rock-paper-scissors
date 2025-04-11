@@ -1,8 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rock Paper Scissors Game
+
+A fun and interactive Rock Paper Scissors game built with Next.js and TypeScript.
+
+## Features
+
+- Play Rock Paper Scissors against the computer
+- Keep track of wins, losses, and draws
+- Responsive design for all devices
+- SEO optimized
+
+## Technologies Used
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- React Hooks
 
 ## Getting Started
 
-First, run the development server:
+First, clone the repository:
+
+```bash
+git clone https://github.com/yourusername/rock-paper-scissors.git
+cd rock-paper-scissors
+```
+
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +43,33 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Play
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Click the "New Game" button to start playing
+2. Choose Rock, Paper, or Scissors by clicking on the respective button
+3. The computer will make its choice
+4. The result will be displayed, and the scores will be updated
+5. Click "Play Again" to continue playing
 
-## Learn More
+## SEO Optimization
 
-To learn more about Next.js, take a look at the following resources:
+This project includes SEO optimizations such as:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Semantic HTML structure
+- Meta tags for search engines
+- Open Graph meta tags for social media sharing
+- Twitter Card meta tags
+- Optimized page load speed
+- Responsive design
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+The easiest way to deploy this app is using the [Vercel Platform](https://vercel.com/new).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
