@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 获取当前网站的基础URL
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rock-paper-scissors-game.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wastetimegame.com';
   
   // 当前日期作为lastModified
   const currentDate = new Date();
