@@ -1,4 +1,9 @@
+
 # Rock Paper Scissors Game
+## Play the Game
+
+Try out my [Rock Paper Scissors Game](https://wastetimegame.com/rockpaperscissors) – a fun browser-based game 
+
 
 A fun and interactive Rock Paper Scissors game built with Next.js and TypeScript.
 
