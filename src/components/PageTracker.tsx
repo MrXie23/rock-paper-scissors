@@ -1,15 +1,25 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import usePageTracking from '@/hooks/usePageTracking';
 
 interface PageTrackerProps {
   children: ReactNode;
 }
 
-export default function PageTracker({ children }: PageTrackerProps) {
-  // 使用自定义钩子跟踪页面变化
+// 内部组件，使用usePageTracking
+function PageTrackerInner() {
   usePageTracking();
-  
-  return <>{children}</>;
+  return null;
+}
+
+export default function PageTracker({ children }: PageTrackerProps) {
+  return (
+    <>
+      <Suspense fallback={null}>
+        <PageTrackerInner />
+      </Suspense>
+      {children}
+    </>
+  );
 } 
